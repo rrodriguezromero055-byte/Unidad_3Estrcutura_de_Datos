@@ -9,5 +9,7 @@ package retos.reto1;
  * @author Romero
  */
 public class Pregunta12 {
-    
+    public static void main(String[] args) {
+        
+    }
 }
