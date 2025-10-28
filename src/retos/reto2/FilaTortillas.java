@@ -39,6 +39,7 @@ public class FilaTortillas {
             }
 
             switch (opcion) {
+                //Se ingresa el nombre para entrar dentro de la fila 
                 case 1:
                     System.out.print("Ingrese el nombre del cliente: ");
                     String cliente = leer.nextLine();
@@ -47,6 +48,7 @@ public class FilaTortillas {
                     break;
 
                 case 2:
+                    //Se atiende al primero de la fila, para que salga de la fila 
                     if (!fila.isEmpty()) {
                         String atendido = fila.removeFirst(); // remueve al primero
                         System.out.println("Se atendio a: " + atendido);
@@ -56,6 +58,8 @@ public class FilaTortillas {
                     break;
 
                 case 3:
+                    //Se pone el nombre del clieente que se desea eliminar
+                    //por que ya no queria estar en la fila 
                     if (fila.isEmpty()) {
                         System.out.println("No hay clientes en la fila.");
                     } else {
@@ -70,6 +74,7 @@ public class FilaTortillas {
                     break;
 
                 case 4:
+                    //Se termina el servicio 
                     System.out.println("Servicio terminado. Quedan " + fila.size() + " personas en la fila.");
                     activo = false;
                     break;

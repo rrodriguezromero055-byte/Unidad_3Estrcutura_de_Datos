@@ -5,7 +5,7 @@
 package retos.reto2;
 
 /**
- *
+ * Programa que simula una fila de un servicio, solo que con cosas distintas 
  * @author Romero
  */
 import java.util.Scanner;
@@ -21,10 +21,9 @@ public class Fila_ejemplo {
             System.out.println("1) Agregar cliente a la fila");
             System.out.println("2) Atender cliente");
             System.out.println("3) Cliente sale de la fila");
-            System.out.println("4) Terminar servicio");
-            System.out.println("5) Imprimir fila normal");
-            System.out.println("6) Imprimir fila en orden inverso");
-            System.out.println("7) Terminar servicio");
+            System.out.println("4) Imprimir fila normal");
+            System.out.println("5) Imprimir fila en orden inverso");
+            System.out.println("6) Terminar servicio");
             System.out.print("Selecciona una opcion: ");
 
             opcion = Integer.parseInt(leer.nextLine());
@@ -47,7 +46,7 @@ public class Fila_ejemplo {
                     System.out.println("Cliente agregado al inicio.");
                     break;
                 case 2:
-                    System.out.print("Ingresa el nombre: ");
+                      // Atender al cliente del frente
                     if (inicioFila != null) {
                         System.out.println("Atendiendo a: " + inicioFila.nombre);
                         inicioFila = inicioFila.vieneAtras;
@@ -57,14 +56,13 @@ public class Fila_ejemplo {
 
                     imprimirLista(inicioFila);
                     break;
-
                 case 3:
                    if (inicioFila == null) {
                        System.out.println("No hay clientes en la fila.");
                        break;
                     }
 
-                       System.out.print("Ingresa el nombre del cliente a atender: ");
+                       System.out.print("Ingresa el nombre del cliente que salio: ");
                        String atender = leer.nextLine();
                        Persona actual = inicioFila;
 
@@ -99,49 +97,15 @@ public class Fila_ejemplo {
                     }
                 }
                     break;
-
                 case 4:
-                     if (inicioFila == null) {
-                        System.out.println("No hay clientes para eliminar.");
-                        break;
-                    }
-
-                    System.out.print("Ingresa el nombre del cliente a eliminar: ");
-                    String eliminar = leer.nextLine();
-                    Persona buscado = inicioFila;
-
-                    while (buscado != null && !buscado.nombre.equals(eliminar)) {
-                        buscado = buscado.vieneAtras;
-                    }
-
-                    if (buscado == null) {
-                        System.out.println("Cliente no encontrado.");
-                    } else {
-                        if (buscado == inicioFila) {
-                            inicioFila = inicioFila.vieneAtras;
-                            if (inicioFila != null)
-                                inicioFila.vieneAdelante = null;
-                        } else if (buscado == finFila) {
-                            finFila = finFila.vieneAdelante;
-                            if (finFila != null)
-                                finFila.vieneAtras = null;
-                        } else {
-                            buscado.vieneAdelante.vieneAtras = buscado.vieneAtras;
-                            buscado.vieneAtras.vieneAdelante = buscado.vieneAdelante;
-                        }
-                        System.out.println("Cliente eliminado: " + eliminar);
-                    }
-                    break;
-
-                case 5:
                      System.out.println("=== Clientes en la fila ===");
                     imprimirLista(inicioFila);
                     break;
-                case 6: 
+                case 5: 
                  System.out.println("=== Clientes en orden inverso ===");
                     imprimirListaInversa(finFila);
                     break;   
-                case 7: 
+                case 6: 
                     int contador=0;
                     while (inicioFila !=null){
                         contador ++;
@@ -153,7 +117,7 @@ public class Fila_ejemplo {
              
             }
 
-        } while (opcion != 7);
+        } while (opcion != 6);
 
         
     }
