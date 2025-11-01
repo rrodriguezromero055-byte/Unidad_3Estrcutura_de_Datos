@@ -3,16 +3,35 @@ package ejercicios1;
 
 import ejercicios1.datos.AgregarCalificaciones;
 import ejercicios1.datos.KardexDatos;
+import ejercicios1.datos.Materia;
 import javax.swing.table.DefaultTableModel;
 
-
+/**
+ * Es la ventana pricipal donde se muestra la tabla de materias, calificaciones 
+ * y el promedio general
+ * @author Romero
+ */
 public class TablaKardex extends javax.swing.JFrame {
 
-    
+    /**
+     * Es el constructor principal que anliza la interfaz y carga los datos 
+     */
     public TablaKardex() {
         initComponents();
         //Se manda a llamar el metodo para actualizar la tabla 
         actualizarTabla();
+        //Se manda a llamar el boton de eliminar 
+        BtnEliminar.addActionListener(new java.awt.event.ActionListener() {
+    public void actionPerformed(java.awt.event.ActionEvent evt) {
+        BtnEliminarActionPerformed(evt);
+    }
+});
+        //Se manda a llamar el boton de eliminar 
+         BtnModificar.addActionListener(evt -> {
+        BtnModificarActionPerformed(null);
+    });
+
+        
     }
 
    
@@ -26,6 +45,8 @@ public class TablaKardex extends javax.swing.JFrame {
         lblPromedio = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
+        BtnEliminar = new javax.swing.JButton();
+        BtnModificar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -75,45 +96,97 @@ public class TablaKardex extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        BtnEliminar.setText("Eliminar");
+        BtnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnEliminarActionPerformed(evt);
+            }
+        });
+
+        BtnModificar.setText("Modificar");
+        BtnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnModificarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(18, Short.MAX_VALUE)
-                .addComponent(lblPromedio, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(202, 202, 202)
-                .addComponent(BtnAgregar)
-                .addGap(24, 24, 24))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblPromedio, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(BtnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(BtnModificar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(BtnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(16, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblPromedio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BtnAgregar, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(BtnAgregar)
+                        .addComponent(BtnModificar)
+                        .addComponent(BtnEliminar))
+                    .addComponent(lblPromedio, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(17, 17, 17))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * Este metodo permite agragar una nueva materia 
+     * @param evt 
+     */
     private void BtnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAgregarActionPerformed
-       var dialogo = new AgregarCalificaciones(this,true);
+       AgregarCalificaciones dialogo = new AgregarCalificaciones(this,true);
        dialogo.setVisible(true);
-      cargarDatos();
+       actualizarTabla();
     }//GEN-LAST:event_BtnAgregarActionPerformed
+    /**
+     * Este metodo permite moddificar los datos de una materia seleccionada 
+     * @param evt 
+     */
+    private void BtnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnModificarActionPerformed
+      int index= TablaDatos.getSelectedRow();
+      if(index>=0){
+          AgregarCalificaciones dialogo = new AgregarCalificaciones(this, true, index);
+          dialogo.setVisible(true);
+          actualizarTabla();
+      }
+    }//GEN-LAST:event_BtnModificarActionPerformed
+    /**
+     * Este metodo elimina la materia selecionada y actualiza la tabla 
+     * @param evt 
+     */
+    private void BtnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEliminarActionPerformed
+       int index = TablaDatos.getSelectedRow();
+    if(index >= 0){
+        int confirmar = javax.swing.JOptionPane.showConfirmDialog(this, 
+                        "¿Deseas eliminar la materia seleccionada?", 
+                        "Confirmar eliminación", 
+                        javax.swing.JOptionPane.YES_NO_OPTION);
+        if(confirmar == javax.swing.JOptionPane.YES_OPTION){
+            KardexDatos.Materias.remove(index);
+            actualizarTabla();
+        }
+    } else {
+        javax.swing.JOptionPane.showMessageDialog(this, "Selecciona una materia para eliminar.");
+    }
+    }//GEN-LAST:event_BtnEliminarActionPerformed
 
     /**
      * Este metodo permite actualizar su tabla con los datos que tiene 
@@ -121,9 +194,22 @@ public class TablaKardex extends javax.swing.JFrame {
      */
     private void actualizarTabla(){
         String columnas[]= {"Materia","Semestre","Calificacion"};
-        DefaultTableModel model = new DefaultTableModel(KardexDatos.datos, 
-        columnas);
+        
+        String matrizDatos[][]=new String[KardexDatos.Materias.size()][]; 
+        
+        int index = 0;
+        for(Materia materia: KardexDatos.Materias){
+            matrizDatos[index]=materia.aArreglo();
+            index++;
+        }
+        DefaultTableModel model = new DefaultTableModel(matrizDatos, columnas);
         TablaDatos.setModel(model);
+        
+        //Muestra el promedio del semestre
+        float promedio = calcularPromedio();
+    lblPromedio.setText("Promedio del semestre: " + String.format("%.2f", promedio));
+
+   
     }
     /**
      * Este metodo carga los datos del arreglo KardexDatos en la tabla principal y 
@@ -132,34 +218,24 @@ public class TablaKardex extends javax.swing.JFrame {
     private void cargarDatos() {
     String[] columnas = {"Materia", "Semestre", "Calificación"};
     javax.swing.table.DefaultTableModel modelo = new javax.swing.table.DefaultTableModel(columnas, 0);
-
     double suma = 0;
     int contador = 0;
 
-    for (int i = 0; i < KardexDatos.index; i++) {
-        String materia = KardexDatos.datos[i][0];
-        String semestre = KardexDatos.datos[i][1];
-        String calif = KardexDatos.datos[i][2];
 
-        modelo.addRow(new Object[]{materia, semestre, calif});
-
-        try {
-            suma += Double.parseDouble(calif);
-            contador++;
-        } catch (NumberFormatException e) {
-            // Si no es número, no se suma
-        }
-    }
-
-    TablaDatos.setModel(modelo);
-
-    if (contador > 0) {
-        double promedio = suma / contador;
-        lblPromedio.setText("Promedio del semestre es: " + String.format("%.2f", promedio));
-    } else {
-        lblPromedio.setText("Promedio del semestre es: N/A");
-    }
 }
+    /**
+     * Este metodo calcula el promedio general de todas las calificaciones 
+     * @return 
+     */
+    private float calcularPromedio(){
+     float promedio=0;
+     int contador=KardexDatos.Materias.size();
+     for(Materia materia: KardexDatos.Materias){
+         promedio += materia.getCalificaciones();
+     }
+     promedio = contador >0?promedio/contador: 0;
+     return promedio;
+    }
     /**
      * @param args the command line arguments
      */
@@ -197,6 +273,8 @@ public class TablaKardex extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnAgregar;
+    private javax.swing.JButton BtnEliminar;
+    private javax.swing.JButton BtnModificar;
     private javax.swing.JTable TablaDatos;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

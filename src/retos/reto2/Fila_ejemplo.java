@@ -30,6 +30,7 @@ public class Fila_ejemplo {
 
             switch (opcion) {
                 case 1:
+                    //Se ingresa el nombre para entrar a la fila 
                     System.out.print("Ingresa el nombre: ");
                     String nombre = leer.nextLine();
                     Persona personaNueva = new Persona();
@@ -57,6 +58,7 @@ public class Fila_ejemplo {
                     imprimirLista(inicioFila);
                     break;
                 case 3:
+                    // Se elimina al cliente que salio de la fila 
                    if (inicioFila == null) {
                        System.out.println("No hay clientes en la fila.");
                        break;
@@ -98,14 +100,17 @@ public class Fila_ejemplo {
                 }
                     break;
                 case 4:
+                    // imprime la fila de manera normal
                      System.out.println("=== Clientes en la fila ===");
                     imprimirLista(inicioFila);
                     break;
                 case 5: 
+                    // imprime la fila en manera inversa 
                  System.out.println("=== Clientes en orden inverso ===");
                     imprimirListaInversa(finFila);
                     break;   
                 case 6: 
+                    //Termina el servicio 
                     int contador=0;
                     while (inicioFila !=null){
                         contador ++;

@@ -3,15 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package ejercicios1.datos;
-
+import java.util.ArrayList;
 /**
  * Esta clase me permite matener la informacion entre las ventanas 
  * @author Romero
  * 14 de octubre 2025
  */
 public class KardexDatos {
-    
-    public static String[][] datos= new String[10][3];
-    public static int index=0;//Para saber cuantos llevo 
+    public static ArrayList<Materia> Materias =new ArrayList<>();
     
 }

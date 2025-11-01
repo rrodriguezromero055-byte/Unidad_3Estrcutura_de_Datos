@@ -9,15 +9,53 @@ package ejercicios1.datos;
  * @author Romero
  */
 import javax.swing.JOptionPane;
+/**
+ * Esta ventana sirve para agregar o modificar las calificaciones dentro del kardex
+ * @author Romero
+ */
 public class AgregarCalificaciones extends javax.swing.JDialog {
-
     /**
-     * Creates new form AgregarCalificaciones
+     * Este cosntructor se usa cuando se agregan nuevas materias
+     * @param parent es la ventana principal que lo invoca
+     * @param modal bloquea la venana principal mientras esta abierta 
      */
     public AgregarCalificaciones(java.awt.Frame parent, boolean modal) {
+    super(parent, modal);
+    initComponents();
+}
+    /**
+     * Este cosntructor se usa cuando se modifica una materia
+     * @param parent es la venatana principal que lo invoca 
+     * @param modal indica si es modal o no
+     * @param index es la posicion del registro que se va a modificar
+     */
+    public AgregarCalificaciones(java.awt.Frame parent, boolean modal, int index) {
         super(parent, modal);
         initComponents();
+        
+          for (java.awt.event.ActionListener al : BtnGuardar.getActionListeners()) {
+        BtnGuardar.removeActionListener(al);
     }
+        //Se obtiene la materia seleccionada del arrgelo
+         Materia m = KardexDatos.Materias.get(index);
+
+    // Cargar los datos actuales en los campos
+    txtMateria.setText(m.getNombre());
+    txtSemestre.setText(String.valueOf(m.getSemestre()));
+    txtCalificacion.setText(String.valueOf(m.getCalificaciones()));
+
+    // Cambia el texto del botón
+    BtnGuardar.setText("Actualizar");
+
+    // Al presionar, solo actualiza los valores
+    BtnGuardar.addActionListener(e -> {
+        m.setNombre(txtMateria.getText());
+        m.setSemestre(Integer.parseInt(txtSemestre.getText()));
+        m.setCalificaciones(Integer.parseInt(txtCalificacion.getText()));
+        dispose();
+    });
+    }
+    
 
     
     @SuppressWarnings("unchecked")
@@ -102,26 +140,26 @@ public class AgregarCalificaciones extends javax.swing.JDialog {
      * @param evt 
      */
     private void BtnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnGuardarActionPerformed
-       if (KardexDatos.index >= 10) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Ya se alcanzó el límite de 10 materias.");
-        return;
-    }
 
     String materia = txtMateria.getText();
     String semestre = txtSemestre.getText();
     String calificacion = txtCalificacion.getText();
-
+    
+    //Valida los campos vacios
     if (materia.isEmpty() || semestre.isEmpty() || calificacion.isEmpty()) {
         javax.swing.JOptionPane.showMessageDialog(this, "Por favor llena todos los campos.");
         return;
     }
+    //Crea un nuevo objeto de matria y asigna su valores 
+    var materiaObj=new Materia();
+    materiaObj.setNombre(materia);
+    materiaObj.setSemestre(Integer.parseInt(semestre));
+    materiaObj.setCalificaciones(Integer.parseInt(calificacion));
+    
+    //Se agrega el arreglo general 
+    KardexDatos.Materias.add(materiaObj);
 
-    KardexDatos.datos[KardexDatos.index][0] = materia;
-    KardexDatos.datos[KardexDatos.index][1] = semestre;
-    KardexDatos.datos[KardexDatos.index][2] = calificacion;
-    KardexDatos.index++;
-
-    this.dispose();
+    this.dispose();//Cierra la ventana
     }//GEN-LAST:event_BtnGuardarActionPerformed
 
     private void txtCalificacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCalificacionActionPerformed
@@ -131,44 +169,8 @@ public class AgregarCalificaciones extends javax.swing.JDialog {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AgregarCalificaciones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AgregarCalificaciones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AgregarCalificaciones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AgregarCalificaciones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+  
 
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                AgregarCalificaciones dialog = new AgregarCalificaciones(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnGuardar;
