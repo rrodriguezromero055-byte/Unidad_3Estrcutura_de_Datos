@@ -160,7 +160,7 @@ public class SimulacionPilasGrafico extends javax.swing.JFrame {
     }//GEN-LAST:event_BtnPopActionPerformed
     /**
      * Evento del bototn peek
-     * @param evt muestra cualo es el elemto que se encuentra actualmente en el
+     * @param evt muestra cual es el elemto que se encuentra actualmente en el
      * tope sin eliminarlo de la pila
      */
     private void BtnPeekActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPeekActionPerformed
